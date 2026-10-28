@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LIC-A3: Enigma.Licensing, Certificate, Sky & Mint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <rect x="34" y="54" width="188" height="124" rx="14" fill="#9DC4F5"/>
+  <rect x="54" y="76" width="96" height="16" rx="5" fill="#5F8BCB"/>
+  <rect x="54" y="106" width="110" height="10" rx="4" fill="#5F8BCB"/>
+  <rect x="54" y="126" width="72" height="10" rx="4" fill="#5F8BCB"/>
+  <path d="M164.6 154.58L143.4 212.84L156.56 205.92L162.19 219.68L183.4 161.42Z" fill="none" stroke="#1E1F22" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M164.6 161.42L185.81 219.68L191.44 205.92L204.6 212.84L183.4 154.58Z" fill="none" stroke="#1E1F22" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M164.6 154.58L143.4 212.84L156.56 205.92L162.19 219.68L183.4 161.42Z" fill="#93DDBA"/>
+  <path d="M164.6 161.42L185.81 219.68L191.44 205.92L204.6 212.84L183.4 154.58Z" fill="#93DDBA"/>
+  <circle cx="174" cy="158" r="30" fill="#93DDBA" stroke="#1E1F22" stroke-width="10"/>
+  <circle cx="174" cy="158" r="17" fill="none" stroke="#1E1F22" stroke-width="5"/>
+</svg>

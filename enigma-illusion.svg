@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Illusion: Kanizsa's triangle. Three discs, each missing the wedge that points at the centre,
+  sit at the corners of a triangle that is never drawn; the eye supplies its edges anyway and sees
+  it lying on top, brighter than the background.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <path d="M128 68.26L102.43 112.54A51.13 51.13 0 1 1 153.57 112.54Z" fill="#B8A6F2"/>
+  <path d="M188.87 173.69L163.3 129.41A51.13 51.13 0 1 1 137.74 173.69Z" fill="#93DDBA"/>
+  <path d="M67.13 173.69L118.26 173.69A51.13 51.13 0 1 1 92.7 129.41Z" fill="#FFB894"/>
+</svg>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enigma Logos</title>
+<style>
+  :root {
+    --bg: #F7F6FB;
+    --card: #FFFFFF;
+    --text: #2E2A3A;
+    --muted: #7A7590;
+    --tile: #1E1F22;
+    --border: #E7E4F0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17161C;
+      --card: #211F28;
+      --text: #ECE9F5;
+      --muted: #9C97B0;
+      --border: #2F2C38;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 16px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 1120px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  .palette { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .swatch {
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 12px 4px 4px; border: 1px solid var(--border); border-radius: 999px;
+    background: var(--card); font: 12px ui-monospace, monospace; color: var(--muted);
+  }
+  .swatch i { width: 22px; height: 22px; border-radius: 50%; display: block; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 20px; display: flex; flex-direction: column; gap: 16px;
+  }
+  .card h2 { font-size: 17px; margin: 0; }
+  .card p { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .card code { font-size: 12px; }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .light, .dark {
+    aspect-ratio: 1; border-radius: 14px; display: grid; place-items: center;
+  }
+  .light { background: #FFFFFF; border: 1px solid var(--border); }
+  .dark { background: var(--tile); }
+  .light img { width: 82%; }
+  .dark img { width: 66%; }
+  .sizes { display: flex; align-items: end; gap: 14px; }
+  .sizes .tile {
+    background: var(--tile); border-radius: 22%; display: grid; place-items: center;
+  }
+  .sizes .tile img { width: 78%; }
+  .lockup { display: flex; align-items: center; gap: 12px; }
+  .lockup img { width: 40px; height: 40px; }
+  .lockup span { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Enigma logo concepts</h1>
+  <p class="lead">Seven vector marks on one shared pastel palette: woven, impossible, illusory and maze shapes. Each SVG is a 256-unit square with a transparent background, shown here on white and on the dark tile the Enigma apps already use.</p>
+
+  <div class="palette">
+    <span class="swatch"><i style="background:#B8A6F2"></i>Lavender #B8A6F2</span>
+    <span class="swatch"><i style="background:#9DC4F5"></i>Sky #9DC4F5</span>
+    <span class="swatch"><i style="background:#93DDBA"></i>Mint #93DDBA</span>
+    <span class="swatch"><i style="background:#FFB894"></i>Peach #FFB894</span>
+    <span class="swatch"><i style="background:#F4A2C0"></i>Pink #F4A2C0</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</main>
+
+<script>
+  const logos = [
+    ["rings", "Rings", "Borromean rings: no two are linked, yet the three can't be pulled apart. Real gaps at the crossings, so the weave reads on any background."],
+    ["labyrinth", "Labyrinth", "A real four-ring maze around a pink centre: in at twelve o'clock, round to seven, back to three, on to ten, and in."],
+    ["paradox", "Paradox", "An impossible triangle, softened: rounded outline and hole, and hairline gaps between the faces like the crossings of the rings."],
+    ["knot", "Knot", "The trefoil, the simplest knot that can't be untied. One strand, three crossings, and the colour changes hidden in the gaps."],
+    ["hexmaze", "Hexmaze", "The labyrinth in hexagons: four rings opened on different sides, short walls, a pink centre. In at the top, round to the lower left, past the bottom to the lower right, back to the upper left, and in."],
+    ["classical", "Classical", "The seven-circuit labyrinth of Crete in its round form: one path, no choices. Up the axis, round the circuits 3, 2, 1, 4, 7, 6, 5 with nested turns, and into the centre."],
+    ["illusion", "Illusion", "Kanizsa's triangle: three discs, each missing a wedge, at the corners of a triangle nobody drew. The eye supplies its edges anyway."],
+  ];
+  const grid = document.getElementById("grid");
+  for (const [file, name, text] of logos) {
+    const src = `enigma-${file}.svg`;
+    const card = document.createElement("section");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="stage">
+        <div class="light"><img src="${src}" alt="${name} on white"></div>
+        <div class="dark"><img src="${src}" alt="${name} on the dark app tile"></div>
+      </div>
+      <div class="sizes">
+        ${[16, 24, 32, 48, 64].map(s => `<div class="tile" style="width:${s}px;height:${s}px"><img src="${src}" alt=""></div>`).join("")}
+      </div>
+      <div class="lockup"><img src="${src}" alt=""><span>Enigma</span></div>
+      <div>
+        <h2>${name}</h2>
+        <p>${text}</p>
+        <p><code>${src}</code></p>
+      </div>`;
+    grid.appendChild(card);
+  }
+</script>
+</body>
+</html>

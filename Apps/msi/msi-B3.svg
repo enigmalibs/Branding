@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MSI-B3: Enigma.Msi, Checked box, Sky & Mint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <rect x="44" y="56" width="168" height="38" rx="12" fill="#9DC4F5"/>
+  <path d="M56 102H200V186A16 16 0 0 1 184 202H72A16 16 0 0 1 56 186Z" fill="#9DC4F5"/>
+  <rect x="100" y="122" width="56" height="16" rx="8" fill="#5F8BCB"/>
+  <circle cx="190" cy="186" r="36" fill="#93DDBA" stroke="#1E1F22" stroke-width="10"/>
+  <path d="M173 187L185 199L207 175" fill="none" stroke="#1E1F22" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

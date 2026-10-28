@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hexmaze: the labyrinth in hexagons, four rings each opened on a different side and barred by
+  short walls, around a pink centre. It is a real maze: in at the top, left round to the lower
+  left, on past the bottom to the lower right, back round to the upper left, and the centre.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g fill="none" stroke-width="13" stroke-linecap="round">
+    <path d="M153 30L175.92 30A15 15 0 0 1 188.91 37.5L236.83 120.5A15 15 0 0 1 236.83 135.5L188.91 218.5A15 15 0 0 1 175.92 226L80.08 226A15 15 0 0 1 67.09 218.5L19.17 135.5A15 15 0 0 1 19.17 120.5L67.09 37.5A15 15 0 0 1 80.08 30L103 30M192.95 90.5L212.87 79M192.95 165.5L212.87 177" stroke="#B8A6F2"/>
+    <path d="M52.55 147.31L44.86 134A12 12 0 0 1 44.86 122L81.23 59A12 12 0 0 1 91.63 53L164.37 53A12 12 0 0 1 174.77 59L211.14 122A12 12 0 0 1 211.14 134L174.77 197A12 12 0 0 1 164.37 203L91.63 203A12 12 0 0 1 81.23 197L73.55 183.69M82.97 102L63.05 90.5M173.03 102L192.95 90.5" stroke="#9DC4F5"/>
+    <path d="M164.53 168.72L160.33 176A8 8 0 0 1 153.4 180L102.6 180A8 8 0 0 1 95.67 176L70.26 132A8 8 0 0 1 70.26 124L95.67 80A8 8 0 0 1 102.6 76L153.4 76A8 8 0 0 1 160.33 80L185.74 124A8 8 0 0 1 185.74 132L181.53 139.28M153.11 113.5L173.03 102M128 99L128 76" stroke="#93DDBA"/>
+    <path d="M108.39 103.97L109.81 101.5A5 5 0 0 1 114.14 99L141.86 99A5 5 0 0 1 146.19 101.5L160.04 125.5A5 5 0 0 1 160.04 130.5L146.19 154.5A5 5 0 0 1 141.86 157L114.14 157A5 5 0 0 1 109.81 154.5L95.96 130.5A5 5 0 0 1 95.96 125.5L97.39 123.03" stroke="#FFB894"/>
+  </g>
+  <circle cx="128" cy="128" r="10" fill="#F4A2C0"/>
+</svg>

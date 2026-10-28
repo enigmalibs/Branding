@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LIC-D6: Enigma.Licensing, Signed envelope, Peach & Sky -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M74 44H158L194 80V200A12 12 0 0 1 182 212H74A12 12 0 0 1 62 200V56A12 12 0 0 1 74 44Z" fill="#FFB894"/>
+  <path d="M158 44V80H194Z" fill="#F2956A"/>
+  <path d="M90 92H80V140H90M166 92H176V140H166" fill="none" stroke="#D97A50" stroke-width="8"/>
+  <rect x="96" y="100" width="48" height="10" rx="4" fill="#D97A50"/>
+  <rect x="96" y="122" width="62" height="10" rx="4" fill="#D97A50"/>
+  <path d="M80 186C88 162 104 160 100 180C97 196 112 174 122 170C128 168 126 186 134 184C142 182 150 172 178 172" fill="none" stroke="#9DC4F5" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

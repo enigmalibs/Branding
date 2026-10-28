@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- HC-E1: Enigma.HardCopy, Scan, Classic -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M44 88V64A20 20 0 0 1 64 44H88M168 44H192A20 20 0 0 1 212 64V88M212 168V192A20 20 0 0 1 192 212H168M88 212H64A20 20 0 0 1 44 192V168" fill="none" stroke="#3574F0" stroke-width="14" stroke-linecap="round"/>
+  <rect x="80.5" y="80.5" width="39" height="39" rx="9.36" fill="#3574F0"/>
+  <rect x="87.52" y="87.52" width="24.96" height="24.96" rx="5.46" fill="#1E1F22"/>
+  <rect x="93.37" y="93.37" width="13.26" height="13.26" rx="3.12" fill="#3574F0"/>
+  <rect x="136.5" y="80.5" width="39" height="39" rx="9.36" fill="#3574F0"/>
+  <rect x="143.52" y="87.52" width="24.96" height="24.96" rx="5.46" fill="#1E1F22"/>
+  <rect x="149.37" y="93.37" width="13.26" height="13.26" rx="3.12" fill="#3574F0"/>
+  <rect x="80.5" y="136.5" width="39" height="39" rx="9.36" fill="#3574F0"/>
+  <rect x="87.52" y="143.52" width="24.96" height="24.96" rx="5.46" fill="#1E1F22"/>
+  <rect x="93.37" y="149.37" width="13.26" height="13.26" rx="3.12" fill="#3574F0"/>
+  <rect x="122.5" y="80.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="122.5" y="108.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="80.5" y="122.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="94.5" y="122.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="122.5" y="122.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="150.5" y="122.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="164.5" y="122.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="122.5" y="136.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="136.5" y="136.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="164.5" y="136.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="122.5" y="164.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="136.5" y="164.5" width="11" height="11" rx="2.75" fill="#3574F0"/>
+  <rect x="150.5" y="150.5" width="25" height="25" rx="6.25" fill="#3574F0"/>
+  <rect x="54" y="121" width="148" height="14" rx="7" fill="#3FB950" stroke="#1E1F22" stroke-width="6"/>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BK-B2: Enigma.Backup, Zipped page, Soft -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M74 44H158L194 80V200A12 12 0 0 1 182 212H74A12 12 0 0 1 62 200V56A12 12 0 0 1 74 44Z" fill="#6A9BF4"/>
+  <path d="M158 44V80H194Z" fill="#4F7FDB"/>
+  <rect x="112" y="50" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="128" y="63" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="112" y="76" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="128" y="89" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="112" y="102" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="128" y="115" width="16" height="9" rx="3" fill="#4A72C4"/>
+  <rect x="106" y="128" width="44" height="58" rx="12" fill="#63C77D"/>
+  <rect x="119" y="152" width="18" height="22" rx="6" fill="#6A9BF4"/>
+</svg>

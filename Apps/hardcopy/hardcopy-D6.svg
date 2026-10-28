@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- HC-D6: Enigma.HardCopy, Paper key, Peach & Sky -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M74 44H158L194 80V200A12 12 0 0 1 182 212H74A12 12 0 0 1 62 200V56A12 12 0 0 1 74 44Z" fill="#FFE6D9"/>
+  <path d="M158 44V80H194Z" fill="#F2956A"/>
+  <g transform="translate(128 116) scale(0.64) translate(-128 -128) rotate(-45 128 128) translate(8 -6)">
+  <path d="M100 116H202V166H182V140H170V158H152V140H100Z" fill="#FFB894"/>
+  <circle cx="72" cy="128" r="40" fill="#9DC4F5"/>
+  <circle cx="64" cy="128" r="15" fill="#FFE6D9"/>
+  </g>
+  <rect x="82" y="178" width="92" height="10" rx="4" fill="#FFB894"/>
+  <rect x="82" y="196" width="58" height="10" rx="4" fill="#FFB894"/>
+</svg>

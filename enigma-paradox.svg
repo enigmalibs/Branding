@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Paradox: an impossible triangle, three beams that each pass in front of the next. Every face
+  colour runs unbroken across two beams that cannot both be where the eye puts them. A hairline
+  gap separates the faces, as at the crossings of the rings and the knot, and the outline and the
+  hole are rounded through a clip, which leaves the edges between faces sharp.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <clipPath id="enigma-paradox-outline">
+      <path d="M23.51 175.16L105.17 33.71A20 20 0 0 1 122.49 23.71L133.51 23.71A20 20 0 0 1 150.83 33.71L232.49 175.16A20 20 0 0 1 232.49 195.16L226.99 204.7A20 20 0 0 1 209.67 214.7L46.33 214.7A20 20 0 0 1 29.01 204.7L23.51 195.16A20 20 0 0 1 23.51 175.16ZM109.93 143.62L121.07 124.33A8 8 0 0 1 134.93 124.33L146.07 143.62A8 8 0 0 1 139.14 155.62L116.86 155.62A8 8 0 0 1 109.93 143.62Z" clip-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#enigma-paradox-outline)">
+    <path d="M145.05 23.71L237.4 183.66L90.28 183.66L106.47 155.62L188.84 155.62L112.68 23.71Z" fill="#B8A6F2"/>
+    <path d="M221.21 214.7L36.52 214.7L110.08 87.29L126.27 115.33L85.08 186.66L237.4 186.66Z" fill="#93DDBA"/>
+    <path d="M17.73 185.16L110.08 25.21L183.64 152.62L151.27 152.62L110.08 81.29L33.92 213.2Z" fill="#FFB894"/>
+  </g>
+</svg>

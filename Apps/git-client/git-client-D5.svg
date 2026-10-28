@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GC-D5: Enigma.GitClient, History, Mint & Pink -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M72 64V192" fill="none" stroke="#93DDBA" stroke-width="14"/>
+  <path d="M72 184H90A22 22 0 0 0 112 162V128" fill="none" stroke="#F4A2C0" stroke-width="14"/>
+  <circle cx="72" cy="72" r="17" fill="#93DDBA"/>
+  <circle cx="72" cy="128" r="17" fill="#93DDBA"/>
+  <circle cx="72" cy="184" r="17" fill="#93DDBA"/>
+  <circle cx="112" cy="128" r="15" fill="#F4A2C0"/>
+  <rect x="140" y="64" width="72" height="16" rx="8" fill="#68C29A"/>
+  <rect x="140" y="120" width="56" height="16" rx="8" fill="#F4A2C0"/>
+  <rect x="140" y="176" width="64" height="16" rx="8" fill="#68C29A"/>
+</svg>

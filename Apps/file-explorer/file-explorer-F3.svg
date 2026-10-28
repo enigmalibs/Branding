@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FE-F3: Enigma.FileExplorer, Folder grid, Sky & Mint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M52 71A9 9 0 0 1 61 62H78L92 76H111A9 9 0 0 1 120 85V109A9 9 0 0 1 111 118H61A9 9 0 0 1 52 109Z" fill="#9DC4F5"/>
+  <path d="M136 71A9 9 0 0 1 145 62H162L176 76H195A9 9 0 0 1 204 85V109A9 9 0 0 1 195 118H145A9 9 0 0 1 136 109Z" fill="#93DDBA"/>
+  <path d="M52 147A9 9 0 0 1 61 138H78L92 152H111A9 9 0 0 1 120 161V185A9 9 0 0 1 111 194H61A9 9 0 0 1 52 185Z" fill="#9DC4F5"/>
+  <path d="M136 147A9 9 0 0 1 145 138H162L176 152H195A9 9 0 0 1 204 161V185A9 9 0 0 1 195 194H145A9 9 0 0 1 136 185Z" fill="#9DC4F5"/>
+</svg>

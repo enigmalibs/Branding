@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BK-F2: Enigma.Backup, Shield, Soft -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M128 40L198 64V122C198 166 170 196 128 214C86 196 58 166 58 122V64Z" fill="#6A9BF4" stroke="#6A9BF4" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M98.23 101.06A40 40 0 1 1 98.23 146.94" fill="none" stroke="#1E1F22" stroke-width="12"/>
+  <path d="M85.13 91.88L86.76 117.44L111.34 110.23Z" fill="#1E1F22"/>
+  <path d="M131 102V124L147 135" fill="none" stroke="#63C77D" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

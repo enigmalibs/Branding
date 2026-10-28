@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BK-C1: Enigma.Backup, Vault, Classic -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <rect x="62" y="190" width="28" height="22" rx="5" fill="#2558C4"/>
+  <rect x="166" y="190" width="28" height="22" rx="5" fill="#2558C4"/>
+  <rect x="40" y="40" width="176" height="160" rx="26" fill="#3574F0"/>
+  <rect x="58" y="58" width="140" height="124" rx="16" fill="#2558C4"/>
+  <rect x="46" y="78" width="16" height="26" rx="5" fill="#2D56A8"/>
+  <rect x="46" y="136" width="16" height="26" rx="5" fill="#2D56A8"/>
+  <circle cx="128" cy="122" r="46" fill="#1E1F22"/>
+  <circle cx="128" cy="122" r="32" fill="none" stroke="#3FB950" stroke-width="10"/>
+  <path d="M128 122L128 90M128 122L155.71 138M128 122L100.29 138" fill="none" stroke="#3FB950" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="128" cy="122" r="11" fill="#3FB950"/>
+</svg>

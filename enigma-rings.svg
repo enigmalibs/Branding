@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Rings: Borromean rings. Lavender lies over mint, mint over peach and peach over lavender, so no
+  two rings are linked, yet the three cannot be pulled apart. Each ring is clipped by a band a
+  little wider than the ring above it, which opens a gap at both of its under-crossings and reads
+  the same on any background.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <clipPath id="enigma-rings-under-peach">
+      <path d="M0 0H256V256H0ZM20.36 158A73 73 0 1 0 166.36 158A73 73 0 1 0 20.36 158ZM54.36 158A39 39 0 1 0 132.36 158A39 39 0 1 0 54.36 158Z" clip-rule="evenodd"/>
+    </clipPath>
+    <clipPath id="enigma-rings-under-lavender">
+      <path d="M0 0H256V256H0ZM55 98A73 73 0 1 0 201 98A73 73 0 1 0 55 98ZM89 98A39 39 0 1 0 167 98A39 39 0 1 0 89 98Z" clip-rule="evenodd"/>
+    </clipPath>
+    <clipPath id="enigma-rings-under-mint">
+      <path d="M0 0H256V256H0ZM89.64 158A73 73 0 1 0 235.64 158A73 73 0 1 0 89.64 158ZM123.64 158A39 39 0 1 0 201.64 158A39 39 0 1 0 123.64 158Z" clip-rule="evenodd"/>
+    </clipPath>
+  </defs>
+  <circle cx="128" cy="98" r="56" fill="none" stroke="#B8A6F2" stroke-width="22" clip-path="url(#enigma-rings-under-peach)"/>
+  <circle cx="162.64" cy="158" r="56" fill="none" stroke="#93DDBA" stroke-width="22" clip-path="url(#enigma-rings-under-lavender)"/>
+  <circle cx="93.36" cy="158" r="56" fill="none" stroke="#FFB894" stroke-width="22" clip-path="url(#enigma-rings-under-mint)"/>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TE-A4: Enigma.TextEditor, Page and cursor, Lavender & Peach -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M74 44H158L194 80V200A12 12 0 0 1 182 212H74A12 12 0 0 1 62 200V56A12 12 0 0 1 74 44Z" fill="#B8A6F2"/>
+  <path d="M158 44V80H194Z" fill="#957FE0"/>
+  <rect x="82" y="100" width="92" height="12" rx="4" fill="#7F6AC6"/>
+  <rect x="82" y="124" width="68" height="12" rx="4" fill="#7F6AC6"/>
+  <rect x="82" y="148" width="84" height="12" rx="4" fill="#7F6AC6"/>
+  <rect x="82" y="172" width="40" height="12" rx="4" fill="#7F6AC6"/>
+  <rect x="128" y="164" width="18" height="28" rx="3" fill="#FFB894"/>
+</svg>

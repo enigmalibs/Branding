@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Labyrinth: four rings, each opened at a different hour and barred by short walls, around a pink
+  centre. It is a real maze: in at twelve o'clock, left round to seven, back to three, left to ten,
+  and the centre.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g fill="none" stroke-width="13" stroke-linecap="round">
+    <path d="M158.99 26.63A106 106 0 1 1 97.01 26.63M169 56.99L181 36.2M180.71 190.82L196.14 209.2" stroke="#B8A6F2"/>
+    <path d="M78.65 193.49A82 82 0 1 1 123.71 209.89M83.57 165.28L65.18 180.71M165.28 83.57L180.71 65.18" stroke="#9DC4F5"/>
+    <path d="M183.47 144.96A58 58 0 1 1 183.47 111.04M155.85 147.5L175.51 161.27M116.37 159.95L108.16 182.5" stroke="#93DDBA"/>
+    <path d="M104.81 103.13A34 34 0 1 1 94.87 120.35" stroke="#FFB894"/>
+  </g>
+  <circle cx="128" cy="128" r="12" fill="#F4A2C0"/>
+</svg>

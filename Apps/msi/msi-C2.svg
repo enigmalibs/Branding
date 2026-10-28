@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MSI-C2: Enigma.Msi, Into the box, Soft -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M128 86L185.16 119L185.16 185L128 218L70.84 185L70.84 119Z" fill="#6A9BF4"/>
+  <path d="M128 86L185.16 119L128 152L70.84 119Z" fill="#D9E5FC"/>
+  <path d="M70.84 119L128 152L128 218L70.84 185Z" fill="#6A9BF4"/>
+  <path d="M128 152L185.16 119L185.16 185L128 218Z" fill="#4F7FDB"/>
+  <path d="M117 28H139V74H162L128 110L94 74H117Z" fill="none" stroke="#1E1F22" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M117 28H139V74H162L128 110L94 74H117Z" fill="#63C77D"/>
+</svg>

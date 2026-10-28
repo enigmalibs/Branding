@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FE-B1: Enigma.FileExplorer, Tree, Classic -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M76 100V164A20 20 0 0 0 96 184H120M76 132H120" fill="none" stroke="#2558C4" stroke-width="14"/>
+  <path d="M44 52A10 10 0 0 1 54 42H74L88 56H106A10 10 0 0 1 116 66V90A10 10 0 0 1 106 100H54A10 10 0 0 1 44 90Z" fill="#3574F0"/>
+  <path d="M120 120A10 10 0 0 1 130 110H154L168 124H198A10 10 0 0 1 208 134V146A10 10 0 0 1 198 156H130A10 10 0 0 1 120 146Z" fill="#3574F0"/>
+  <path d="M120 172A10 10 0 0 1 130 162H154L168 176H198A10 10 0 0 1 208 186V198A10 10 0 0 1 198 208H130A10 10 0 0 1 120 198Z" fill="#3FB950"/>
+</svg>

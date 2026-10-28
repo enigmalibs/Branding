@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LIC-C3: Enigma.Licensing, Seal, Sky & Mint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M214 128L199.48 147.15L202.48 171L180.33 180.33L171 202.48L147.15 199.48L128 214L108.85 199.48L85 202.48L75.67 180.33L53.52 171L56.52 147.15L42 128L56.52 108.85L53.52 85L75.67 75.67L85 53.52L108.85 56.52L128 42L147.15 56.52L171 53.52L180.33 75.67L202.48 85L199.48 108.85Z" fill="#9DC4F5" stroke="#9DC4F5" stroke-width="12" stroke-linejoin="round"/>
+  <circle cx="128" cy="128" r="56" fill="#93DDBA"/>
+  <path d="M100 130L120 150L158 110" fill="none" stroke="#1E1F22" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

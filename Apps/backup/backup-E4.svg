@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BK-E4: Enigma.Backup, Storage, Lavender & Peach -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M56 64V188A72 22 0 0 0 200 188V64Z" fill="#B8A6F2"/>
+  <path d="M56 106A72 22 0 0 0 200 106M56 148A72 22 0 0 0 200 148" fill="none" stroke="#1E1F22" stroke-width="8"/>
+  <ellipse cx="128" cy="64" rx="72" ry="22" fill="#FFB894"/>
+</svg>

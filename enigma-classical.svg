@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Classical: the seven-circuit labyrinth of Crete in its round form, one path with no choices. It
+  comes up the axis, walks the circuits in the order 3, 2, 1, 4, 7, 6, 5, each nearly all the way
+  round, turning in nested half circles beside the axis, and ends in the pink centre. The colour
+  follows the circuit, lavender outside to peach inside.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <g fill="none" stroke-width="7.5" stroke-linejoin="round">
+    <path d="M128 240.86L128 210.14A7.92 7.92 0 0 0 120.8 202.25A79.2 79.2 0 1 1 157.82 196.75A6.6 6.6 0 0 0 154.19 205.35l0.3 0.74" stroke="#9DC4F5"/>
+    <path d="M154.19 205.35A6.6 6.6 0 0 0 162.78 208.98A92.4 92.4 0 1 0 110.17 214.04A6.6 6.6 0 0 1 115.38 221.79l-0.15 0.78" stroke="#A8B6F8"/>
+    <path d="M115.38 221.79A6.6 6.6 0 0 1 107.63 227A105.6 105.6 0 1 1 167.75 221.21A19.8 19.8 0 0 1 141.96 210.32l-0.3 -0.74" stroke="#B8A6F2"/>
+    <path d="M141.96 210.32A19.8 19.8 0 0 1 152.85 184.52A66 66 0 1 0 81.86 170.57A19.8 19.8 0 0 0 109.86 170.26l0.56 -0.57" stroke="#98D1D9"/>
+    <path d="M109.86 170.26A19.8 19.8 0 0 0 109.54 142.26A26.4 26.4 0 1 1 143.28 144.91A6.6 6.6 0 0 0 141.72 154.11l0.46 0.65" stroke="#FFABA7"/>
+    <path d="M141.72 154.11A6.6 6.6 0 0 0 150.92 155.67A39.6 39.6 0 1 0 100.31 151.69A6.6 6.6 0 0 1 100.42 161.03l-0.56 0.57" stroke="#FFB894"/>
+    <path d="M100.42 161.03A6.6 6.6 0 0 1 91.09 161.13A52.8 52.8 0 1 1 137.32 175.35A7.92 7.92 0 0 1 128 167.56L128 123.38" stroke="#93DDBA"/>
+  </g>
+  <circle cx="128" cy="240.86" r="3.75" fill="#9DC4F5"/>
+  <circle cx="128" cy="123.38" r="9.9" fill="#F4A2C0"/>
+</svg>

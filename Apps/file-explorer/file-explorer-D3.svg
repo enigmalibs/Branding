@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FE-D3: Enigma.FileExplorer, Dual pane, Sky & Mint -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <rect x="36" y="52" width="184" height="152" rx="18" fill="#9DC4F5"/>
+  <rect x="48" y="64" width="76" height="128" rx="9" fill="#5F8BCB"/>
+  <rect x="56" y="76" width="60" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="56" y="104" width="44" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="56" y="132" width="52" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="56" y="160" width="36" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="132" y="64" width="76" height="128" rx="9" fill="#5F8BCB"/>
+  <rect x="140" y="76" width="60" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="140" y="104" width="60" height="14" rx="5" fill="#93DDBA"/>
+  <rect x="140" y="132" width="40" height="14" rx="5" fill="#9DC4F5"/>
+  <rect x="140" y="160" width="50" height="14" rx="5" fill="#9DC4F5"/>
+</svg>

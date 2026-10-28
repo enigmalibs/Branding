@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MSI-A5: Enigma.Msi, Taped cube, Mint & Pink -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M128 40L204.21 84L204.21 172L128 216L51.79 172L51.79 84Z" fill="#93DDBA"/>
+  <path d="M128 40L204.21 84L128 128L51.79 84Z" fill="#DDF5EA"/>
+  <path d="M51.79 84L128 128L128 216L51.79 172Z" fill="#93DDBA"/>
+  <path d="M128 128L204.21 84L204.21 172L128 216Z" fill="#68C29A"/>
+  <path d="M80.37 100.5L99.42 111.5L175.63 67.5L156.58 56.5Z" fill="#F4A2C0"/>
+  <path d="M80.37 100.5L99.42 111.5L99.42 199.5L80.37 188.5Z" fill="#F4A2C0"/>
+</svg>
