@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Enigma.Backup application icon, simplified for the 16 to 32 px frames: enigma-backup.svg with heavier marks and fewer details.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="#1E1F22"/>
+  <path d="M64 32H160L208 80V208A16 16 0 0 1 192 224H64A16 16 0 0 1 48 208V48A16 16 0 0 1 64 32Z" fill="#6A9BF4"/>
+  <path d="M160 32V80H208Z" fill="#4F7FDB"/>
+  <rect x="96" y="48" width="32" height="16" fill="#304A7F"/>
+  <rect x="128" y="64" width="32" height="16" fill="#304A7F"/>
+  <rect x="96" y="80" width="32" height="16" fill="#304A7F"/>
+  <rect x="128" y="96" width="32" height="16" fill="#304A7F"/>
+  <rect x="96" y="120" width="64" height="80" rx="16" fill="#63C77D"/>
+  <rect x="120" y="152" width="16" height="32" rx="4" fill="#6A9BF4"/>
+</svg>
