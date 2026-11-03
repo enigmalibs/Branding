@@ -7,6 +7,9 @@ rounded by 48, in a 256-unit view box -- and in one of the palettes below. A var
 application prefix, its shape letter and its palette number: MSI-A1 is the first Enigma.Msi shape in
 the Classic palette.
 
+Some drawings paint in the tile's colour to let the tile show through a hole or a gap. Those that
+export.py exports without the tile also take cut=True, which cuts those parts out instead.
+
     python3 generate.py        writes <app>/<app>-<shape><palette>.svg and preview.html next to it
 """
 import html
@@ -87,6 +90,101 @@ def page(p):
     ]
 
 
+def pt(xy):
+    return f"{n(xy[0])} {n(xy[1])}"
+
+
+def circle_d(cx, cy, r):
+    """A circle as path data, to combine with others in an even-odd path."""
+    return f"M{n(cx - r)} {n(cy)}A{n(r)} {n(r)} 0 1 0 {n(cx + r)} {n(cy)}A{n(r)} {n(r)} 0 1 0 {n(cx - r)} {n(cy)}Z"
+
+
+def rounded_rect_d(x, y, w, h, r):
+    """<rect x y width height rx> as path data, to combine with others in an even-odd path."""
+    return (f"M{n(x + r)} {n(y)}H{n(x + w - r)}A{n(r)} {n(r)} 0 0 1 {n(x + w)} {n(y + r)}V{n(y + h - r)}"
+            f"A{n(r)} {n(r)} 0 0 1 {n(x + w - r)} {n(y + h)}H{n(x + r)}A{n(r)} {n(r)} 0 0 1 {n(x)} {n(y + h - r)}"
+            f"V{n(y + r)}A{n(r)} {n(r)} 0 0 1 {n(x + r)} {n(y)}Z")
+
+
+# An outline is a closed list of segments: ("L", start, end) or ("A", centre, radius, from, to), an arc
+# turning from angle `from` to the larger angle `to` -- clockwise on screen, where y points down.
+
+def rounded_rect_outline(x, y, w, h, r):
+    q = math.pi / 2
+    return [
+        ("L", (x + r, y), (x + w - r, y)), ("A", (x + w - r, y + r), r, -q, 0),
+        ("L", (x + w, y + r), (x + w, y + h - r)), ("A", (x + w - r, y + h - r), r, 0, q),
+        ("L", (x + w - r, y + h), (x + r, y + h)), ("A", (x + r, y + h - r), r, q, 2 * q),
+        ("L", (x, y + h - r), (x, y + r)), ("A", (x + r, y + r), r, 2 * q, 3 * q),
+    ]
+
+
+def polygon_outline(points):
+    return [("L", a, b) for a, b in zip(points, points[1:] + points[:1])]
+
+
+def _along(seg, t):
+    if seg[0] == "L":
+        (x0, y0), (x1, y1) = seg[1:]
+        return (x0 + (x1 - x0) * t, y0 + (y1 - y0) * t)
+    _, (cx, cy), r, a0, a1 = seg
+    a = a0 + (a1 - a0) * t
+    return (cx + r * math.cos(a), cy + r * math.sin(a))
+
+
+def _crossings(seg, c, radius):
+    """Where seg crosses the circle (c, radius), as positions along it strictly between 0 and 1."""
+    if seg[0] == "L":
+        (x0, y0), (x1, y1) = seg[1:]
+        dx, dy, fx, fy = x1 - x0, y1 - y0, x0 - c[0], y0 - c[1]
+        a, b, k = dx * dx + dy * dy, 2 * (fx * dx + fy * dy), fx * fx + fy * fy - radius * radius
+        disc = b * b - 4 * a * k
+        if disc <= 0:
+            return []
+        ts = [(-b - math.sqrt(disc)) / (2 * a), (-b + math.sqrt(disc)) / (2 * a)]
+    else:
+        _, o, r, a0, a1 = seg
+        d = math.dist(o, c)
+        if d == 0 or d >= r + radius or d <= abs(r - radius):
+            return []
+        toward = math.atan2(c[1] - o[1], c[0] - o[0])
+        spread = math.acos((r * r + d * d - radius * radius) / (2 * r * d))
+        ts = [((toward + s * spread - a0) % (2 * math.pi)) / (a1 - a0) for s in (-1, 1)]
+    return sorted(t for t in ts if 0 < t < 1)
+
+
+def subtract_circle(outline, c, radius):
+    """Path data for the shape inside `outline` minus the disc (c, radius), exactly: the part of the
+    outline outside the circle, closed by the circle's arc. The circle must cross the outline twice."""
+    hits = [(i, t) for i, seg in enumerate(outline) for t in _crossings(seg, c, radius)]
+    if len(hits) != 2:
+        raise ValueError(f"the circle crosses the outline {len(hits)} times, not twice")
+    (i0, t0), (i1, t1) = hits
+    probe = _along(outline[i0], (t0 + (t1 if i1 == i0 else 1)) / 2)
+    (si, st), (ei, et) = hits if math.dist(probe, c) > radius else hits[::-1]
+    start = _along(outline[si], st)
+    d, i, t = f"M{pt(start)}", si, st
+    while True:
+        seg = outline[i]
+        last = i == ei and (i != si or t < et)
+        stop = et if last else 1
+        end = _along(seg, stop)
+        if seg[0] == "L":
+            d += f"L{pt(end)}"
+        else:
+            d += f"A{n(seg[2])} {n(seg[2])} 0 {int((seg[4] - seg[3]) * (stop - t) > math.pi)} 1 {pt(end)}"
+        if last:
+            break
+        i, t = (i + 1) % len(outline), 0
+    # The arc closing the shape bounds a hole, so it turns the other way round from the outline.
+    corners = [_along(seg, 0) for seg in outline]
+    clockwise = sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(corners, corners[1:] + corners[:1])) > 0
+    at_end = math.atan2(end[1] - c[1], end[0] - c[0])
+    at_start = math.atan2(start[1] - c[1], start[0] - c[0])
+    span = ((at_end - at_start) if clockwise else (at_start - at_end)) % (2 * math.pi)
+    return d + f"A{n(radius)} {n(radius)} 0 {int(span > math.pi)} {0 if clockwise else 1} {pt(start)}Z"
+
+
 def stroke(d, color, width, cap="butt", join="miter"):
     return (f'<path d="{d}" fill="none" stroke="{color}" stroke-width="{width}"'
             + (f' stroke-linecap="{cap}"' if cap != "butt" else "")
@@ -95,15 +193,17 @@ def stroke(d, color, width, cap="butt", join="miter"):
 
 # --- Enigma.GitClient -----------------------------------------------------------------------------
 
-def git_branch(p):
-    # The current icon, unchanged in the Classic palette.
+def git_branch(p, cut=False):
+    # The current icon, unchanged in the Classic palette. Cut, the ring's hole is left empty, so the main
+    # line starts inside the ring's stroke instead of at its centre.
+    line, hole = ("M92 83.5V192", "none") if cut else ("M92 64V192", TILE)
     return [
-        stroke("M92 64V192", p.main, 18),
+        stroke(line, p.main, 18),
         stroke("M92 192H136A32 32 0 0 0 168 160V128", p.accent, 18),
         f'<circle cx="92" cy="128" r="26" fill="{p.main}"/>',
         f'<circle cx="92" cy="192" r="26" fill="{p.main}"/>',
         f'<circle cx="168" cy="128" r="22" fill="{p.accent}"/>',
-        f'<circle cx="92" cy="64" r="19.5" fill="{TILE}" stroke="{p.main}" stroke-width="13"/>',
+        f'<circle cx="92" cy="64" r="19.5" fill="{hole}" stroke="{p.main}" stroke-width="13"/>',
     ]
 
 
@@ -177,13 +277,15 @@ def msi_dropping_cube(p):
 
 # --- Enigma.Launchpad -----------------------------------------------------------------------------
 
-def launchpad_rocket(p):
+def launchpad_rocket(p, cut=False):
+    body = "M128 34C153 52 164 84 164 120V170H92V120C92 84 103 52 128 34Z"
+    window = ([f'<path d="{body}{circle_d(128, 100, 16)}" fill="{p.main}" fill-rule="evenodd"/>'] if cut else
+              [f'<path d="{body}" fill="{p.main}"/>', f'<circle cx="128" cy="100" r="16" fill="{TILE}"/>'])
     return [
         '<g transform="translate(6 -6) rotate(45 128 128)">',
         f'<path d="M94 126L66 156V190L94 170Z" fill="{p.shade}"/>',
         f'<path d="M162 126L190 156V190L162 170Z" fill="{p.shade}"/>',
-        f'<path d="M128 34C153 52 164 84 164 120V170H92V120C92 84 103 52 128 34Z" fill="{p.main}"/>',
-        f'<circle cx="128" cy="100" r="16" fill="{TILE}"/>',
+        *window,
         f'<path d="M106 180H150C150 198 142 210 128 226C114 210 106 198 106 180Z" fill="{p.accent}"/>',
         "</g>",
     ]
@@ -360,16 +462,21 @@ def explorer_folder_grid(p):
 
 def qr(x, y, u, gap, fg, bg, accent):
     """A stylised QR code on a 7 x 7 grid of pitch u: three finder patterns three modules wide, a few
-    data modules, and the alignment pattern in the bottom right corner, in the accent."""
+    data modules, and the alignment pattern in the bottom right corner, in the accent. bg fills the
+    finder patterns' holes; None cuts them out."""
     out = []
     f = 3 * u - gap
     for cx, cy in ((0, 0), (4, 0), (0, 4)):
         fx, fy = x + cx * u + gap / 2, y + cy * u + gap / 2
-        out += [
-            f'<rect x="{n(fx)}" y="{n(fy)}" width="{n(f)}" height="{n(f)}" rx="{n(f * 0.24)}" fill="{fg}"/>',
-            f'<rect x="{n(fx + f * 0.18)}" y="{n(fy + f * 0.18)}" width="{n(f * 0.64)}" height="{n(f * 0.64)}" rx="{n(f * 0.14)}" fill="{bg}"/>',
-            f'<rect x="{n(fx + f * 0.33)}" y="{n(fy + f * 0.33)}" width="{n(f * 0.34)}" height="{n(f * 0.34)}" rx="{n(f * 0.08)}" fill="{fg}"/>',
-        ]
+        if bg is None:
+            ring = rounded_rect_d(fx, fy, f, f, f * 0.24) + rounded_rect_d(fx + f * 0.18, fy + f * 0.18, f * 0.64, f * 0.64, f * 0.14)
+            out.append(f'<path d="{ring}" fill="{fg}" fill-rule="evenodd"/>')
+        else:
+            out += [
+                f'<rect x="{n(fx)}" y="{n(fy)}" width="{n(f)}" height="{n(f)}" rx="{n(f * 0.24)}" fill="{fg}"/>',
+                f'<rect x="{n(fx + f * 0.18)}" y="{n(fy + f * 0.18)}" width="{n(f * 0.64)}" height="{n(f * 0.64)}" rx="{n(f * 0.14)}" fill="{bg}"/>',
+            ]
+        out.append(f'<rect x="{n(fx + f * 0.33)}" y="{n(fy + f * 0.33)}" width="{n(f * 0.34)}" height="{n(f * 0.34)}" rx="{n(f * 0.08)}" fill="{fg}"/>')
     m = u - gap
     for c, r in ((3, 0), (3, 2), (0, 3), (1, 3), (3, 3), (5, 3), (6, 3), (3, 4), (4, 4), (6, 4), (3, 6), (4, 6)):
         out.append(f'<rect x="{n(x + c * u + gap / 2)}" y="{n(y + r * u + gap / 2)}" width="{n(m)}" height="{n(m)}" '
@@ -390,8 +497,8 @@ def hardcopy_qr_page(p):
     ]
 
 
-def hardcopy_qr(p):
-    return qr(58, 58, 20, 4, p.main, TILE, p.accent)
+def hardcopy_qr(p, cut=False):
+    return qr(58, 58, 20, 4, p.main, None if cut else TILE, p.accent)
 
 
 def hardcopy_printer(p):
@@ -523,15 +630,29 @@ def ribbon_tail(cx, cy, deg, length, half):
     return [at(0, -half), at(length, -half), at(length - 11, 0), at(length, half), at(0, half)]
 
 
-def licensing_certificate(p):
+def licensing_certificate(p, cut=False):
     seal = (174, 158)
     tails = [ribbon_tail(*seal, deg, 62, 10) for deg in (-20, 20)]
     tail_paths = ["M" + "L".join(f"{n(x)} {n(y)}" for x, y in t) + "Z" for t in tails]
-    return [
-        f'<rect x="34" y="54" width="188" height="124" rx="14" fill="{p.main}"/>',
+    lines = [
         f'<rect x="54" y="76" width="96" height="16" rx="5" fill="{p.deep}"/>',
         f'<rect x="54" y="106" width="110" height="10" rx="4" fill="{p.deep}"/>',
         f'<rect x="54" y="126" width="72" height="10" rx="4" fill="{p.deep}"/>',
+    ]
+    if cut:
+        # The seal's gap ring reaches 35 from its centre; the tails' outline only ever lay on the tile,
+        # below the certificate, so cutting the gap out of the certificate and the tails is enough.
+        gap = 35
+        return [
+            f'<path d="{subtract_circle(rounded_rect_outline(34, 54, 188, 124, 14), seal, gap)}" fill="{p.main}"/>',
+            *lines,
+            *(f'<path d="{subtract_circle(polygon_outline(t), seal, gap)}" fill="{p.accent}"/>' for t in tails),
+            f'<path d="{circle_d(*seal, 25)}{circle_d(*seal, 19.5)}{circle_d(*seal, 14.5)}" fill="{p.accent}" '
+            f'fill-rule="evenodd"/>',
+        ]
+    return [
+        f'<rect x="34" y="54" width="188" height="124" rx="14" fill="{p.main}"/>',
+        *lines,
         *(f'<path d="{d}" fill="none" stroke="{TILE}" stroke-width="10" stroke-linejoin="round"/>' for d in tail_paths),
         *(f'<path d="{d}" fill="{p.accent}"/>' for d in tail_paths),
         f'<circle cx="{seal[0]}" cy="{seal[1]}" r="30" fill="{p.accent}" stroke="{TILE}" stroke-width="10"/>',

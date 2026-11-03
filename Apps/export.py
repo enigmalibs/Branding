@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Exports the icons chosen from preview.html, each into final/<app>/:
+Exports the icons chosen from preview.html, each into final/<app>/ on the tile and into final2/<app>/
+without it:
 
     enigma-<app>.svg            the master: the chosen variant, for the 40 px frames and up
     enigma-<app>-small.svg      a simpler drawing for the 16 to 32 px frames, where the master blurs;
@@ -8,7 +9,12 @@ Exports the icons chosen from preview.html, each into final/<app>/:
     png/enigma-<app>-<N>.png    every size in SIZES, each rendered by rsvg-convert from its drawing
     enigma-<app>.ico            the same PNGs, unchanged and smallest first, as 32-bit PNG entries
 
-    python3 export.py
+    python3 export.py           writes final/ and final2/
+    python3 export.py final2    writes only the targets named: final, final2
+
+In final2/, a drawing that painted in the tile's colour to show the tile through -- the GitClient ring,
+the rocket's window, the QR finder holes, the gap round the licence seal -- has those parts cut out, so
+the desktop shows through instead. Placed on the tile, a final2/ icon looks like its final/ twin.
 
 The variants themselves stay in <app>/ and are not touched.
 """
@@ -22,7 +28,8 @@ import generate as g  # noqa: E402
 from generate import TILE, stroke  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent
-OUT = ROOT / "final"
+# Output folder: whether its icons are drawn on the tile.
+TARGETS = {"final": True, "final2": False}
 SIZES = (16, 20, 24, 32, 40, 48, 64, 96, 128, 256)
 SMALL_UP_TO = 32
 
@@ -73,15 +80,19 @@ def text_editor_small(p):
     ]
 
 
-def hardcopy_small(p):
+def hardcopy_small(p, cut=False):
     # The three finder patterns and the accent block, without the data modules.
     out = []
     for x, y in ((32, 32), (144, 32), (32, 144)):
-        out += [
-            f'<rect x="{x}" y="{y}" width="80" height="80" rx="16" fill="{p.main}"/>',
-            f'<rect x="{x + 16}" y="{y + 16}" width="48" height="48" rx="6" fill="{TILE}"/>',
-            f'<rect x="{x + 32}" y="{y + 32}" width="16" height="16" fill="{p.main}"/>',
-        ]
+        if cut:
+            ring = g.rounded_rect_d(x, y, 80, 80, 16) + g.rounded_rect_d(x + 16, y + 16, 48, 48, 6)
+            out.append(f'<path d="{ring}" fill="{p.main}" fill-rule="evenodd"/>')
+        else:
+            out += [
+                f'<rect x="{x}" y="{y}" width="80" height="80" rx="16" fill="{p.main}"/>',
+                f'<rect x="{x + 16}" y="{y + 16}" width="48" height="48" rx="6" fill="{TILE}"/>',
+            ]
+        out.append(f'<rect x="{x + 32}" y="{y + 32}" width="16" height="16" fill="{p.main}"/>')
     return out + [f'<rect x="152" y="152" width="64" height="64" rx="12" fill="{p.accent}"/>']
 
 
@@ -94,14 +105,27 @@ def backup_small(p):
     ]
 
 
-def licensing_small(p):
+def licensing_small(p, cut=False):
     seal = (176, 160)
-    tails = ["M" + "L".join(f"{g.n(x)} {g.n(y)}" for x, y in g.ribbon_tail(*seal, deg, 64, 13)) + "Z"
-             for deg in (-20, 20)]
-    return [
-        f'<rect x="24" y="48" width="208" height="128" rx="16" fill="{p.main}"/>',
+    tail_points = [g.ribbon_tail(*seal, deg, 64, 13) for deg in (-20, 20)]
+    tails = ["M" + "L".join(f"{g.n(x)} {g.n(y)}" for x, y in t) + "Z" for t in tail_points]
+    lines = [
         f'<rect x="48" y="72" width="96" height="16" fill="{ink(p)}"/>',
         f'<rect x="48" y="104" width="72" height="16" fill="{ink(p)}"/>',
+    ]
+    if cut:
+        # As licensing_certificate(cut=True): the seal's gap ring, out to 48, cut out of the certificate
+        # and the tails.
+        gap = 48
+        return [
+            f'<path d="{g.subtract_circle(g.rounded_rect_outline(24, 48, 208, 128, 16), seal, gap)}" fill="{p.main}"/>',
+            *lines,
+            *(f'<path d="{g.subtract_circle(g.polygon_outline(t), seal, gap)}" fill="{p.accent}"/>' for t in tail_points),
+            f'<circle cx="{seal[0]}" cy="{seal[1]}" r="32" fill="{p.accent}"/>',
+        ]
+    return [
+        f'<rect x="24" y="48" width="208" height="128" rx="16" fill="{p.main}"/>',
+        *lines,
         *(f'<path d="{d}" fill="none" stroke="{TILE}" stroke-width="12" stroke-linejoin="round"/>' for d in tails),
         *(f'<path d="{d}" fill="{p.accent}"/>' for d in tails),
         f'<circle cx="{seal[0]}" cy="{seal[1]}" r="40" fill="{p.accent}" stroke="{TILE}" stroke-width="16"/>',
@@ -122,12 +146,23 @@ CHOSEN = [
 ]
 
 
-def document(comment, size, body):
+def document(comment, size, body, tile):
     inner = "\n".join("  " + line for line in body)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             f"<!--\n{comment}\n-->\n"
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 256 256">\n'
-            f"  {g.TILE_RECT}\n{inner}\n</svg>\n")
+            + (f"  {g.TILE_RECT}\n" if tile else "") + f"{inner}\n</svg>\n")
+
+
+def tile_free(draw, p):
+    """draw(p) for a target without the tile: a drawing that paints in the tile's colour is drawn with
+    cut=True, which cuts those parts out instead."""
+    body = draw(p)
+    if any(TILE in line for line in body):
+        body = draw(p, cut=True)
+        if any(TILE in line for line in body):
+            raise ValueError(f"{draw.__name__}(cut=True) still paints in the tile's colour")
+    return body
 
 
 def write_ico(path, frames):
@@ -140,28 +175,32 @@ def write_ico(path, frames):
     path.write_bytes(struct.pack("<HHH", 0, 1, len(frames)) + entries + data)
 
 
-def export(key, letter, number, stem, small):
+def export(target, key, letter, number, stem, small):
+    tile = TARGETS[target]
     app = next(a for a in g.APPS if a["key"] == key)
     title, draw = next((t, d) for s, t, _, d in app["shapes"] if s == letter)
     p = next(p for p in g.PALETTES if p.number == number)
+    paint = (lambda d: d(p)) if tile else (lambda d: tile_free(d, p))
     variant = f'{app["prefix"]}-{letter}{number}'
-    folder = OUT / key
+    folder = ROOT / target / key
     (folder / "png").mkdir(parents=True, exist_ok=True)
 
+    icon = "application icon" if tile else "application icon without the tile"
     master = folder / f"{stem}.svg"
     frames_note = (f"The master for the {SIZES[SIZES.index(SMALL_UP_TO) + 1]} px frames and up; the "
                    f"{SIZES[0]} to {SMALL_UP_TO} px frames come from {stem}-small.svg, simplified for their size."
                    if small else f"The master for every frame, {SIZES[0]} to {SIZES[-1]} px.")
     master.write_text(document(
-        f"  {app['name']} application icon: {variant} in Branding/Apps/preview.html, {title} in the {p.name} palette.\n"
+        f"  {app['name']} {icon}: {variant} in Branding/Apps/preview.html, {title} in the {p.name} palette.\n"
         f"  {frames_note}\n"
-        f"  Regenerate the SVGs, the PNG frames and the .ico with: python3 Branding/Apps/export.py", 256, draw(p)))
+        f"  Regenerate the SVGs, the PNG frames and the .ico with: python3 Branding/Apps/export.py"
+        + ("" if tile else f" {target}"), 256, paint(draw), tile))
     sources = {s: master for s in SIZES}
     if small:
         small_path = folder / f"{stem}-small.svg"
         small_path.write_text(document(
-            f"  {app['name']} application icon, simplified for the {SIZES[0]} to {SMALL_UP_TO} px frames: "
-            f"{stem}.svg with heavier marks and fewer details.", 32, small(p)))
+            f"  {app['name']} {icon}, simplified for the {SIZES[0]} to {SMALL_UP_TO} px frames: "
+            f"{stem}.svg with heavier marks and fewer details.", 32, paint(small), tile))
         sources.update({s: small_path for s in SIZES if s <= SMALL_UP_TO})
 
     frames = []
@@ -174,6 +213,11 @@ def export(key, letter, number, stem, small):
 
 
 if __name__ == "__main__":
-    for chosen in CHOSEN:
-        variant, folder = export(*chosen)
-        print(f"{variant:7} -> {folder.relative_to(ROOT)}")
+    targets = list(dict.fromkeys(sys.argv[1:])) or list(TARGETS)
+    unknown = [t for t in targets if t not in TARGETS]
+    if unknown:
+        sys.exit(f"export.py: unknown target {', '.join(unknown)}; expected any of: {', '.join(TARGETS)}")
+    for target in targets:
+        for chosen in CHOSEN:
+            variant, folder = export(target, *chosen)
+            print(f"{variant:7} -> {folder.relative_to(ROOT)}")
