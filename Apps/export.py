@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Exports the icons chosen from preview.html, each into final/<app>/ on the tile and into final2/<app>/
-without it:
+Exports the icons chosen from preview.html, each into final/<app>/ on the tile, into final2/<app>/
+without it, and into final3/<app>/ without it and filling the frame:
 
     enigma-<app>.svg            the master: the chosen variant, for the 40 px frames and up
     enigma-<app>-small.svg      a simpler drawing for the 16 to 32 px frames, where the master blurs;
@@ -9,18 +9,26 @@ without it:
     png/enigma-<app>-<N>.png    every size in SIZES, each rendered by rsvg-convert from its drawing
     enigma-<app>.ico            the same PNGs, unchanged and smallest first, as 32-bit PNG entries
 
-    python3 export.py           writes final/ and final2/
-    python3 export.py final2    writes only the targets named: final, final2
+    python3 export.py                  writes final/, final2/ and final3/
+    python3 export.py final2 final3    writes only the targets named: final, final2, final3
 
-In final2/, a drawing that painted in the tile's colour to show the tile through -- the GitClient ring,
-the rocket's window, the QR finder holes, the gap round the licence seal -- has those parts cut out, so
-the desktop shows through instead. Placed on the tile, a final2/ icon looks like its final/ twin.
+In final2/ and final3/, a drawing that painted in the tile's colour to show the tile through -- the
+GitClient ring, the rocket's window, the QR finder holes, the gap round the licence seal -- has those
+parts cut out, so the desktop shows through instead. Placed on the tile, a final2/ icon looks like its
+final/ twin.
+
+A final2/ drawing keeps the margin it had inside the tile, so without the tile it looks small next to
+other applications' icons. In final3/, every drawing spans the live area LIVE -- 16 to 240 of the 256-unit
+view box -- on its longest side, centred: the master is the final2/ drawing in one transform, scaled and
+centred from its bounds as rsvg-convert renders them, and it is used for every frame.
 
 The variants themselves stay in <app>/ and are not touched.
 """
 import struct
 import subprocess
 import sys
+import tempfile
+import zlib
 from pathlib import Path
 
 sys.dont_write_bytecode = True
@@ -28,10 +36,15 @@ import generate as g  # noqa: E402
 from generate import TILE, stroke  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent
-# Output folder: whether its icons are drawn on the tile.
-TARGETS = {"final": True, "final2": False}
+# Output folder: whether its icons are drawn on the tile, and whether they are scaled to fill LIVE.
+TARGETS = {"final": (True, False), "final2": (False, False), "final3": (False, True)}
 SIZES = (16, 20, 24, 32, 40, 48, 64, 96, 128, 256)
 SMALL_UP_TO = 32
+# The square, in view-box units, whose side the longest side of a filling drawing spans: 1 px of margin
+# at 16 px, a 16-unit grid step.
+LIVE = (16, 240)
+# The resolution at which a drawing is rendered to measure its bounds: 1/4 unit per pixel.
+MEASURE_PX = 1024
 
 
 def ink(p):
@@ -165,6 +178,86 @@ def tile_free(draw, p):
     return body
 
 
+def decimals(v):
+    return f"{v:.4f}".rstrip("0").rstrip(".")
+
+
+def png_alpha(data):
+    """The alpha channel of an 8-bit RGBA, non-interlaced PNG -- what rsvg-convert writes -- one bytes
+    object per row."""
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError("not a PNG file")
+    pos, idat, w, h = 8, b"", 0, 0
+    while pos < len(data):
+        length, kind = struct.unpack(">I4s", data[pos:pos + 8])
+        body = data[pos + 8:pos + 8 + length]
+        if kind == b"IHDR":
+            w, h, depth, colour, _, _, interlace = struct.unpack(">IIBBBBB", body)
+            if (depth, colour, interlace) != (8, 6, 0):
+                raise ValueError(f"not an 8-bit RGBA, non-interlaced PNG: depth {depth}, colour type {colour}, "
+                                 f"interlace {interlace}")
+        elif kind == b"IDAT":
+            idat += body
+        pos += 12 + length
+    raw, stride = zlib.decompress(idat), w * 4
+    prev, rows = bytearray(stride), []
+    for y in range(h):
+        start = y * (stride + 1)
+        kind, line = raw[start], bytearray(raw[start + 1:start + 1 + stride])
+        if kind == 1:
+            for i in range(4, stride):
+                line[i] = (line[i] + line[i - 4]) & 255
+        elif kind == 2:
+            line = bytearray((a + b) & 255 for a, b in zip(line, prev))
+        elif kind == 3:
+            for i in range(stride):
+                line[i] = (line[i] + ((line[i - 4] if i >= 4 else 0) + prev[i]) // 2) & 255
+        elif kind == 4:
+            for i in range(stride):
+                a, b, c = (line[i - 4], prev[i], prev[i - 4]) if i >= 4 else (0, prev[i], 0)
+                pa, pb, pc = abs(b - c), abs(a - c), abs(a + b - 2 * c)
+                line[i] = (line[i] + (a if pa <= pb and pa <= pc else b if pb <= pc else c)) & 255
+        elif kind:
+            raise ValueError(f"unknown PNG filter {kind}")
+        rows.append(bytes(line[3::4]))
+        prev = line
+    return rows
+
+
+HALF_COVERED = bytes(int(a >= 128) for a in range(256))
+
+
+def visible_bounds(body):
+    """The box (x0, y0, x1, y1), in view-box units, of what the drawing paints: rendered by rsvg-convert at
+    MEASURE_PX, the pixels at least half covered."""
+    with tempfile.TemporaryDirectory() as tmp:
+        src, png = Path(tmp) / "drawing.svg", Path(tmp) / "drawing.png"
+        src.write_text(document("  Measured by export.py.", 256, body, False), encoding="utf-8")
+        subprocess.run(["rsvg-convert", "-w", str(MEASURE_PX), "-h", str(MEASURE_PX), str(src), "-o", str(png)],
+                       check=True)
+        alpha = png_alpha(png.read_bytes())
+    marks = [row.translate(HALF_COVERED) for row in alpha]
+    rows = [y for y, m in enumerate(marks) if 1 in m]
+    if not rows:
+        raise ValueError("the drawing paints nothing")
+    x0 = min(m.find(1) for m in marks if 1 in m)
+    x1 = max(m.rfind(1) for m in marks if 1 in m) + 1
+    unit = 256 / MEASURE_PX
+    return x0 * unit, rows[0] * unit, x1 * unit, (rows[-1] + 1) * unit
+
+
+def fill_live(body):
+    """body in one transform that scales it until its longest side spans LIVE and centres it there, and
+    the scale."""
+    x0, y0, x1, y1 = visible_bounds(body)
+    low, high = LIVE
+    scale = (high - low) / max(x1 - x0, y1 - y0)
+    middle = (low + high) / 2
+    move = (middle - scale * (x0 + x1) / 2, middle - scale * (y0 + y1) / 2)
+    return [f'<g transform="translate({decimals(move[0])} {decimals(move[1])}) scale({decimals(scale)})">',
+            *("  " + line for line in body), "</g>"], scale
+
+
 def write_ico(path, frames):
     """frames: (size, PNG bytes) pairs, smallest first. A 256 px entry stores its size as 0."""
     offset = 6 + 16 * len(frames)
@@ -176,7 +269,7 @@ def write_ico(path, frames):
 
 
 def export(target, key, letter, number, stem, small):
-    tile = TARGETS[target]
+    tile, fill = TARGETS[target]
     app = next(a for a in g.APPS if a["key"] == key)
     title, draw = next((t, d) for s, t, _, d in app["shapes"] if s == letter)
     p = next(p for p in g.PALETTES if p.number == number)
@@ -186,15 +279,23 @@ def export(target, key, letter, number, stem, small):
     (folder / "png").mkdir(parents=True, exist_ok=True)
 
     icon = "application icon" if tile else "application icon without the tile"
+    body, scale, fill_note = paint(draw), None, ""
+    if fill:
+        # The small drawings keep their final2/ size: until one is drawn on LIVE, the master serves every frame.
+        icon, small = f"{icon}, filling the frame ({target})", None
+        body, scale = fill_live(body)
+        fill_note = (f"  The final2/ drawing scaled by {decimals(scale)} and centred, its longest side spanning "
+                     f"{LIVE[0]} to {LIVE[1]} of the 256-unit view box.\n")
     master = folder / f"{stem}.svg"
     frames_note = (f"The master for the {SIZES[SIZES.index(SMALL_UP_TO) + 1]} px frames and up; the "
                    f"{SIZES[0]} to {SMALL_UP_TO} px frames come from {stem}-small.svg, simplified for their size."
                    if small else f"The master for every frame, {SIZES[0]} to {SIZES[-1]} px.")
     master.write_text(document(
         f"  {app['name']} {icon}: {variant} in Branding/Apps/preview.html, {title} in the {p.name} palette.\n"
+        f"{fill_note}"
         f"  {frames_note}\n"
         f"  Regenerate the SVGs, the PNG frames and the .ico with: python3 Branding/Apps/export.py"
-        + ("" if tile else f" {target}"), 256, paint(draw), tile))
+        + ("" if tile else f" {target}"), 256, body, tile))
     sources = {s: master for s in SIZES}
     if small:
         small_path = folder / f"{stem}-small.svg"
@@ -209,7 +310,7 @@ def export(target, key, letter, number, stem, small):
         subprocess.run(["rsvg-convert", "-w", str(size), "-h", str(size), str(sources[size]), "-o", str(png)], check=True)
         frames.append((size, png.read_bytes()))
     write_ico(folder / f"{stem}.ico", frames)
-    return variant, folder
+    return variant, folder, scale
 
 
 if __name__ == "__main__":
@@ -219,5 +320,5 @@ if __name__ == "__main__":
         sys.exit(f"export.py: unknown target {', '.join(unknown)}; expected any of: {', '.join(TARGETS)}")
     for target in targets:
         for chosen in CHOSEN:
-            variant, folder = export(target, *chosen)
-            print(f"{variant:7} -> {folder.relative_to(ROOT)}")
+            variant, folder, scale = export(target, *chosen)
+            print(f"{variant:7} -> {folder.relative_to(ROOT)}" + (f"  (scaled by {decimals(scale)})" if scale else ""))

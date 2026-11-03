@@ -1,6 +1,6 @@
 # FEATURE-BF15 — Frame-filling app icons in Apps/final3
 
-**Status:** TODO
+**Status:** IN PROGRESS
 **Type:** FEATURE
 **Branch:** feature/feature-bf15-phase01-fit-masters, feature/feature-bf15-phase02-small-drawings
 **Run:** feature/2026-11-03-frame-filling-icons
@@ -47,7 +47,7 @@ centred, so the 32 px and 40 px frames match in size.
 
 ### PHASE01 — Fit masters into final3
 
-**Status:** TODO
+**Status:** DONE
 
 Steps:
 1. `export.py`: `LIVE`; the `(tile, fit)` target table with `final3`; `png_alpha` (stdlib PNG decode),
