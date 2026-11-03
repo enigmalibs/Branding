@@ -1,6 +1,6 @@
 # FEATURE-BF15 — Frame-filling app icons in Apps/final3
 
-**Status:** IN PROGRESS
+**Status:** DONE
 **Type:** FEATURE
 **Branch:** feature/feature-bf15-phase01-fit-masters, feature/feature-bf15-phase02-small-drawings
 **Run:** feature/2026-11-03-frame-filling-icons
@@ -74,7 +74,7 @@ Acceptance criteria:
 
 ### PHASE02 — Grid-drawn small icons
 
-**Status:** TODO
+**Status:** DONE
 
 Steps:
 1. Six final3 small drawings in `export.py` — git-client, markdown-editor, text-editor, hardcopy, backup,

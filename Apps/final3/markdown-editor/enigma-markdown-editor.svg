@@ -2,7 +2,7 @@
 <!--
   Enigma.MarkdownEditor application icon without the tile, filling the frame (final3): MD-A2 in Branding/Apps/preview.html, Outline mark in the Soft palette.
   The final2/ drawing scaled by 1.1852 and centred, its longest side spanning 16 to 240 of the 256-unit view box.
-  The master for every frame, 16 to 256 px.
+  The master for the 40 px frames and up; the 16 to 32 px frames come from enigma-markdown-editor-small.svg, simplified for their size.
   Regenerate the SVGs, the PNG frames and the .ico with: python3 Branding/Apps/export.py final3
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
